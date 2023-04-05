@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\{Size, User, Image, Order, Store, Comment, Category};
 use Illuminate\Database\Eloquent\Model;
+use App\Models\{Size, User, Image, Order, Store, Comment, Category,};
 
 class Product extends Model
 {
@@ -30,7 +30,7 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function categorey()
+    public function category()
     {
         return $this->belongsTo(Category::class);
     }

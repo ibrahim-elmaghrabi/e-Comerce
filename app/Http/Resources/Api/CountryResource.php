@@ -17,7 +17,7 @@ class CountryResource extends JsonResource
         return [
             "id"   => $this->id,
             "name" => $this->name,
-            "cities" => $this->cities->count()
+            'cities_count' => $this->whenCounted('cities'),
         ];
     }
 }

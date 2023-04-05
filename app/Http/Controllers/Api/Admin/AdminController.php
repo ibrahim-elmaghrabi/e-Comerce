@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Models\Store;
+use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\StoreRequest;
-use App\Http\Resources\Api\StoreResource;
+use App\Http\Requests\Api\AdminRequest;
 
-class StoreController extends Controller
+class AdminController extends Controller
 {
     use ApiResponse;
     /**
@@ -19,9 +18,8 @@ class StoreController extends Controller
      */
     public function index()
     {
-
-        return $this->apiResponse(true, "Success", StoreResource::collection(Store::with('user')
-        ->withCount('products')->paginate(5)));
+        $users = User::where('user_type', 'admin')->paginate(5);
+        return $this->apiResponse(true, "Success", $users);
     }
 
     /**
@@ -40,10 +38,10 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request)
+    public function store(AdminRequest $request)
     {
-        Store::create($request->validated());
-        return $this->apiResponse(true, "Store Created Successfully");
+        User::create($request->validated()+['user_type' => 'admin']);
+        return $this->apiResponse(true, "User Created Successfully");
     }
 
     /**
@@ -54,8 +52,8 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        return $this->ApiResponse(true, "Success", new StoreResource(Store::with('user')
-        ->withCount('products')->findOrFail($id)));
+        $user = User::findOrFail($id);
+        return $this->ApiResponse(true, "Success", ['User' => $user]);
     }
 
     /**
@@ -66,7 +64,8 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        return $this->apiResponse(true, "Success", new StoreResource(Store::findOrFail($id)));
+        $user = User::findOrFail($id);
+        return $this->apiResponse(true, "Success", $user);
     }
 
     /**
@@ -76,11 +75,11 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRequest $request, $id)
+    public function update(AdminRequest $request, $id)
     {
-        $store = Store::findOrFail($id);
-        $store->update($request->validated());
-        return $this->apiResponse(true, "Store Updated Successfully");
+        $user = User::findOrFail($id);
+        $user->update($request->validated());
+        return $this->apiResponse(true, "User Updated Successfully");
     }
 
     /**
@@ -91,7 +90,7 @@ class StoreController extends Controller
      */
     public function destroy($id)
     {
-        Store::findOrFail($id)->delete();
-        return $this->apiResponse(true, "Store Deleted successfully");
+        User::findOrFail($id)->delete();
+        return $this->apiResponse(true, "User Deleted successfully");
     }
 }

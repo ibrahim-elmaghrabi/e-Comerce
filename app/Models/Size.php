@@ -11,7 +11,7 @@ class Size extends Model
 
     protected $guarded = [] ;
 
-    public function size()
+    public function colors()
     {
         return $this->belongsToMany(Color::class);
     }

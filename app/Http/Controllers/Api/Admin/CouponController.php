@@ -6,6 +6,8 @@ use App\Models\Coupon;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\CouponRequest;
+use App\Http\Resources\Api\CouponResource;
 
 class CouponController extends Controller
 {
@@ -15,14 +17,10 @@ class CouponController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $coupons = Coupon::where(function ($query) use ($request) {
-            if ($request->has('country-id') ) {
-                $query->where('country_id', $request->country_id);
-            }
-        })->paginate(5);
-        return $this->apiResponse(true, 'Success', $coupons);
+
+        return $this->apiResponse(true, "Success", CouponResource::collection(Coupon::with('store')->paginate(5)));
     }
 
     /**
@@ -41,9 +39,10 @@ class CouponController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CouponRequest $request)
     {
-        //
+        Coupon::create($request->validated());
+        return $this->apiResponse(true, "Coupon Created Successfully");
     }
 
     /**
@@ -54,7 +53,7 @@ class CouponController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->ApiResponse(true, "Success", new CouponResource(Coupon::with('store')->findOrFail($id)));
     }
 
     /**
@@ -65,7 +64,7 @@ class CouponController extends Controller
      */
     public function edit($id)
     {
-        //
+        return $this->apiResponse(true, "Success", new CouponResource(Coupon::findOrFail($id)));
     }
 
     /**
@@ -75,9 +74,11 @@ class CouponController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CouponRequest $request, $id)
     {
-        //
+        $coupon = Coupon::findOrFail($id);
+        $coupon->update($request->validated());
+        return $this->apiResponse(true, "Coupon Updated Successfully");
     }
 
     /**
@@ -88,6 +89,7 @@ class CouponController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Coupon::findOrFail($id)->delete();
+        return $this->apiResponse(true, "Coupon Deleted successfully");
     }
 }

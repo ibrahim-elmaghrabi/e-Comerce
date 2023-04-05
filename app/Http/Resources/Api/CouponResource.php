@@ -4,7 +4,7 @@ namespace App\Http\Resources\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CityResource extends JsonResource
+class CouponResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,14 @@ class CityResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'country' => new CountryResource($this->whenLoaded('country')),
+            'type' => $this->type,
+            'code' => $this->code,
+            'value' => $this->value,
+            'count' => $this->count,
+            'status' => $this->status,
+            'start_at' =>$this->start_at,
+            'end_at' => $this->end_at,
+            'store' => new StoreResource($this->whenLoaded('store')),
         ];
     }
 }

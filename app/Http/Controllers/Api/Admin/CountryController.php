@@ -19,8 +19,7 @@ class CountryController extends Controller
      */
     public function index()
     {
-        $countries = Country::withCount('cities')->get();
-        return $this->apiResponse(true, "Success", CountryResource::collection($countries));
+        return $this->apiResponse(true, "Success", CountryResource::collection(Country::withCount('cities')->paginate(5)));
     }
 
     /**
@@ -53,8 +52,7 @@ class CountryController extends Controller
      */
     public function show($id)
     {
-        $country = Country::findOrFail($id);
-        return $this->apiResponse(true, 'Success', new CountryResource($country));
+        return $this->apiResponse(true, 'Success', new CountryResource(Country::withCount('cities')->findOrFail($id)));
     }
 
     /**
@@ -65,8 +63,7 @@ class CountryController extends Controller
      */
     public function edit($id)
     {
-        $country = Country::findOrFail($id);
-        return $this->apiResponse(true, "Success", new CountryResource($country));
+        return $this->apiResponse(true, "Success", new CountryResource(Country::findOrFail($id)));
     }
 
     /**

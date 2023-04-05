@@ -15,7 +15,7 @@ return new class extends Migration
 			$table->string('tax_number');
 			$table->foreignId('user_id') ;
 			$table->foreignId('category_id') ;
-            $table->foreignId('store-id') ;
+            $table->foreignId('store_id') ;
 			$table->timestamps();
 		});
 	}

@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources\Api;
 
+use App\Http\Resources\Api\StoreResource;
+use App\Http\Resources\Api\CategoryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CityResource extends JsonResource
+class ProductResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +19,12 @@ class CityResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'country' => new CountryResource($this->whenLoaded('country')),
+            'description' =>$this->description,
+            'tax_number' => $this->tax_number,
+            'category' => new CategoryResource($this->whenLoaded('category')),
+            'store' => new StoreResource($this->whenLoaded('store')),
+
+
         ];
     }
 }

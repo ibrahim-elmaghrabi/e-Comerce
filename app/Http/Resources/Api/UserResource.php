@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources\Api;
 
+use App\Http\Resources\Api\CityResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CityResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +18,9 @@ class CityResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'country' => new CountryResource($this->whenLoaded('country')),
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'city' => new CityResource($this->whenLoaded('city')),
         ];
     }
 }

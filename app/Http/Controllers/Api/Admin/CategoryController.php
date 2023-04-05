@@ -18,8 +18,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(5);
-        return $this->apiResponse(true, "Success", $categories);
+
+        return $this->apiResponse(true, "Success", CategoryResource::collection(Category::paginate(5)));
     }
 
     /**
@@ -52,8 +52,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::findOrFail($id);
-        return $this->ApiResponse(true, "Success", ['category' => $category]);
+        return $this->ApiResponse(true, "Success", new CategoryResource(Category::findOrFail($id)));
     }
 
     /**
@@ -64,8 +63,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::findOrFail($id);
-        return $this->apiResponse(true, "Success", $category);
+        return $this->apiResponse(true, "Success", new CategoryResource(Category::findOrFail($id)));
     }
 
     /**

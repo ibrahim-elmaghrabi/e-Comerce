@@ -7,6 +7,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CityRequest;
+use App\Http\Resources\Api\CityResource;
 
 class CityController extends Controller
 {
@@ -16,14 +17,10 @@ class CityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $cities = City::where(function ($query) use ($request) {
-            if ($request->has('country-id') ){
-                $query->where('country_id', $request->country_id);
-            }
-        })->paginate(5);
-        return $this->apiResponse(true, 'Success', $cities);
+
+        return $this->apiResponse(true, "Success", CityResource::collection(City::with('country')->paginate(5)));
     }
 
     /**
@@ -45,7 +42,7 @@ class CityController extends Controller
     public function store(CityRequest $request)
     {
         City::create($request->validated());
-        return $this->apiResponse(true, 'city created successfully');
+        return $this->apiResponse(true, "City Created Successfully");
     }
 
     /**
@@ -56,8 +53,7 @@ class CityController extends Controller
      */
     public function show($id)
     {
-        $city = City::findOrFail($id);
-        return $this->apiResponse(true, 'Success', ['city' => $city]);
+        return $this->ApiResponse(true, "Success", new CityResource(City::with('country')->findOrFail($id)));
     }
 
     /**
@@ -68,8 +64,7 @@ class CityController extends Controller
      */
     public function edit($id)
     {
-        $city = City::findOrFail($id);
-        return $this->apiResponse(true, "Success", $city);
+        return $this->apiResponse(true, "Success", new CityResource(City::findOrFail($id)));
     }
 
     /**
@@ -83,7 +78,7 @@ class CityController extends Controller
     {
         $city = City::findOrFail($id);
         $city->update($request->validated());
-        return $this->apiResponse(true, 'city Updated Successfully', ['city' => $city]);
+        return $this->apiResponse(true, "City Updated Successfully");
     }
 
     /**
@@ -94,8 +89,7 @@ class CityController extends Controller
      */
     public function destroy($id)
     {
-         City::findOrFail($id)->delete();
-         return $this->apiResponse(true, "city Deleted successfully");
-
+        City::findOrFail($id)->delete();
+        return $this->apiResponse(true, "City Deleted successfully");
     }
 }

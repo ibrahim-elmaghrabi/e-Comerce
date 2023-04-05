@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Models\Store;
+use App\Models\Color;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\StoreRequest;
-use App\Http\Resources\Api\StoreResource;
+use App\Http\Requests\Api\ColorRequest;
+use App\Http\Resources\Api\ColorResource;
 
-class StoreController extends Controller
+class ColorController extends Controller
 {
     use ApiResponse;
     /**
@@ -19,9 +19,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-
-        return $this->apiResponse(true, "Success", StoreResource::collection(Store::with('user')
-        ->withCount('products')->paginate(5)));
+        return $this->apiResponse(true, "Success", ColorResource::collection(Color::paginate(5)));
     }
 
     /**
@@ -40,10 +38,10 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request)
+    public function store(ColorRequest $request)
     {
-        Store::create($request->validated());
-        return $this->apiResponse(true, "Store Created Successfully");
+        Color::create($request->validated());
+        return $this->apiResponse(true, "Color Created Successfully");
     }
 
     /**
@@ -54,8 +52,7 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        return $this->ApiResponse(true, "Success", new StoreResource(Store::with('user')
-        ->withCount('products')->findOrFail($id)));
+        return $this->ApiResponse(true, "Success", new ColorResource(Color::findOrFail($id)));
     }
 
     /**
@@ -66,7 +63,7 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        return $this->apiResponse(true, "Success", new StoreResource(Store::findOrFail($id)));
+        return $this->apiResponse(true, "Success", new ColorResource(Color::findOrFail($id)));
     }
 
     /**
@@ -76,11 +73,11 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRequest $request, $id)
+    public function update(ColorRequest $request, $id)
     {
-        $store = Store::findOrFail($id);
-        $store->update($request->validated());
-        return $this->apiResponse(true, "Store Updated Successfully");
+        $color = Color::findOrFail($id);
+        $color->update($request->validated());
+        return $this->apiResponse(true, "Color Updated Successfully");
     }
 
     /**
@@ -91,7 +88,7 @@ class StoreController extends Controller
      */
     public function destroy($id)
     {
-        Store::findOrFail($id)->delete();
-        return $this->apiResponse(true, "Store Deleted successfully");
+        Color::findOrFail($id)->delete();
+        return $this->apiResponse(true, "Color Deleted successfully");
     }
 }
