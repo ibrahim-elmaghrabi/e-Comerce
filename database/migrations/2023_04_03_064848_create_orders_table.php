@@ -11,6 +11,7 @@ return new class extends Migration
 		Schema::create('orders', function (Blueprint $table) {
 			$table->id();
 			$table->foreignId('user_id');
+            $table->foreignId('address_id');
 			$table->unsignedDecimal('total');
 			$table->timestamps();
 		});

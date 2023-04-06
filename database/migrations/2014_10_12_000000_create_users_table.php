@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->foreignId('city_id')->nullable();
             $table->string('user_type')->default('customer');
-            $table->boolean('is_active')->nullable();
+            $table->boolean('is_active')->default(0);
             $table->string('pin_code')->nullable();
             $table->string('user_token')->nullable();
             $table->string('password');

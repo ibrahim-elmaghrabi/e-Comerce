@@ -19,8 +19,6 @@ class StoreResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'image' => $this->image,
-            'vat_included' => $this->vat_included,
-            'vat_percentage' => $this->vat_percentage,
             'products_count' =>  $this->whenCounted('products'),
             'user' =>  BasicDataResource::make($this->whenLoaded('user')),
         ];

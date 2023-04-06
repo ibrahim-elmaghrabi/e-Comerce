@@ -27,7 +27,8 @@ class verificationController extends Controller
         $user->update([
             'pin_code' => null ,
             'user_token' => null ,
+            'is_active' => 1
         ]);
-        return $this->apiResponse(true, 'Success');
+        return $this->apiResponse(true, 'Success go to login ');
     }
 }

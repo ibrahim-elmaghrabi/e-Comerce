@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use App\Models\{Size, User, Image, Order, Store, Comment, Category,};
 
-class Product extends Model
+class Product extends Model  implements HasMedia
 {
+    use InteractsWithMedia;
 
     protected $guarded = ['id', 'created_at', 'updated_at'] ;
 

@@ -22,8 +22,7 @@ class LoginController extends Controller
         {
             return $this->apiResponse(false, 'wrong phone or password');
         }
-        $token = $user->createToken('UserToken')->plainTextToken;
-        return $this->apiResponse(true, 'Success',new TokenResource($token)) ;
+        return $this->apiResponse(true, 'Success', new TokenResource($user)) ;
 
     }
 }

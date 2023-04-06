@@ -40,7 +40,7 @@ class AdminController extends Controller
      */
     public function store(AdminRequest $request)
     {
-        User::create($request->validated()+['user_type' => 'admin']);
+        User::create($request->validated()+['user_type'=> 'admin', 'is_active'=> 1]);
         return $this->apiResponse(true, "User Created Successfully");
     }
 
