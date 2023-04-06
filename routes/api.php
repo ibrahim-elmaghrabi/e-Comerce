@@ -18,16 +18,15 @@ use App\Http\Controllers\Api\Auth\ResetPasswordController;
 |
 */
 
-Route::group(['middleware' => 'auth'], function (){
-    Route::get('stores', [StoreController::class, 'index']);
-    Route::post('stores', [StoreController::class, 'store']);
+Route::group(['middleware' => 'auth:sanctum'], function (){
+
+    Route::post('logout', [LoginController::class, 'logout']);
 });
 
 
 Route::post('register', RegisterController::class);
 Route::post('verification',  verificationController::class);
 Route::post('login', [LoginController::class, 'login']);
-Route::post('logout', [LoginController::class, 'logout']);
 Route::put('forget_Password', [ResetPasswordController::class, 'forgetPassword']);
 Route::post('verfiy_user', [ResetPasswordController::class, 'verfiyUser']);
 Route::post('reset-passsword', [ResetPasswordController::class, 'setNewPassword']);

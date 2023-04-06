@@ -23,6 +23,11 @@ class LoginController extends Controller
             return $this->apiResponse(false, 'wrong phone or password');
         }
         return $this->apiResponse(true, 'Success', new TokenResource($user)) ;
+    }
 
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return $this->apiResponse(1, 'Logged out Successfully');
     }
 }
