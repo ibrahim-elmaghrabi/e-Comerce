@@ -17,7 +17,7 @@ class CityResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'country' => new CountryResource($this->whenLoaded('country')),
+            'country' => BasicDataResource::make($this->whenLoaded('country')),
         ];
     }
 }

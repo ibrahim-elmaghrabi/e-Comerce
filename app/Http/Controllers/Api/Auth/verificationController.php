@@ -28,7 +28,6 @@ class verificationController extends Controller
             'pin_code' => null ,
             'user_token' => null ,
         ]);
-        $token = $user->createToken('UserToken')->plainTextToken;
-        return $this->apiResponse(true, 'Success', ['token' => $token]);
+        return $this->apiResponse(true, 'Success');
     }
 }

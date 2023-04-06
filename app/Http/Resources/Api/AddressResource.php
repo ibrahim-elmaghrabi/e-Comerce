@@ -19,7 +19,6 @@ class AddressResource extends JsonResource
             'location'=> $this->location,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
-           // 'city' => new CityResource($this->whenLoaded('city'))
         ];
     }
 }

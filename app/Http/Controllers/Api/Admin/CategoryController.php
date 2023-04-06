@@ -7,6 +7,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CategoryRequest;
+use App\Http\Resources\Api\CategoryResource;
 
 class CategoryController extends Controller
 {
@@ -19,7 +20,7 @@ class CategoryController extends Controller
     public function index()
     {
 
-        return $this->apiResponse(true, "Success", CategoryResource::collection(Category::paginate(5)));
+        return $this->apiResponse(true, "Success", CategoryResource::collection(Category::withCount('children')->paginate(5)));
     }
 
     /**

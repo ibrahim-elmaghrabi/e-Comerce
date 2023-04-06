@@ -24,20 +24,19 @@ use App\Http\Controllers\Api\Admin\CategoryController;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
-    Route::resource('stores', StoreController::class)->except('create');
-    Route::resource('products', ProductController::class)->except('create');
-
-});
-
 Route::resources([
     'countries' =>  CountryController::class,
     'cities' =>  CityController::class,
-    'categories', CategoryController::class,
-    'admins', AdminController::class,
-    'colors', ColorController::class,
-    'coupons', CouponController::class,
-    'addresses', AddressController::class,
+    'categories' =>  CategoryController::class,
+    'admins' =>  AdminController::class,
+    'colors' => ColorController::class,
+    'coupons' => CouponController::class,
+    'addresses' => AddressController::class,
+    'products' => ProductController::class,
+    'stores' => StoreController::class
 ], ['except' => ['create']]);
+
+});
 
 
 

@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function index()
     {
 
-        return $this->apiResponse(true, "Success", ProductResource::collection(Product::with('store', 'category')
+        return $this->apiResponse(true, "Success", ProductResource::collection(Product::with('store', 'category', 'sizes')
         ->paginate(5)));
     }
 
@@ -42,14 +42,11 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request, Product $product)
     {
-        $product->fill($request->validated());
-        foreach ($request->sizes as $key => $size) {
-			Multi::create([
-    	    	'product_id' => $prod,
-				'size_id' => $size
-			]);
+        $product->fill($request->validated()+['user_id' => 1])->save();
+        foreach ($request->validated(['sizes']) as $size) {
+		  $newSize = $product->sizes()->create(array_except($size, ['colors']));
+          $newSize->colors()->attach($size['colors']);
 		}
-        //$size->colors()->attach($request->colors_ids);
         return $this->apiResponse(true, "Product Created Successfully");
     }
 
@@ -61,7 +58,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return $this->ApiResponse(true, "Success", new ProductResource(Product::with('category', 'store')
+        return $this->ApiResponse(true, "Success", new ProductResource(Product::with('category', 'store', )
             ->findOrFail($id)));
     }
 
@@ -86,8 +83,12 @@ class ProductController extends Controller
     public function update(ProductRequest $request, $id)
     {
         $product = Product::findOrFail($id);
-        $product->update($request->validated());
-        return $this->apiResponse(true, "Product Updated Successfully");
+        $product->update($request->validated())->save();
+        foreach ($request->validated(['sizes']) as $size) {
+		  $newSize = $product->sizes()->update(array_except($size, ['colors']));
+          $newSize->colors()->sync($size['colors']);
+		}
+        return $this->apiResponse(true, "Product Created Successfully");
     }
 
     /**

@@ -8,7 +8,7 @@ use App\Models\{Size, User, Image, Order, Store, Comment, Category,};
 class Product extends Model
 {
 
-    protected $guarded = [] ;
+    protected $guarded = ['id', 'created_at', 'updated_at'] ;
 
     public function sizes()
     {

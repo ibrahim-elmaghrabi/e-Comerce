@@ -8,17 +8,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Api\LoginRequest;
+use App\Http\Resources\Api\TokenResource;
 
 class LoginController extends Controller
 {
     use ApiResponse;
-    /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function __invoke(LoginRequest $request)
+
+    public function login(LoginRequest $request)
     {
 
         $user = User::where('phone', $request['phone'])->first();
@@ -27,7 +23,7 @@ class LoginController extends Controller
             return $this->apiResponse(false, 'wrong phone or password');
         }
         $token = $user->createToken('UserToken')->plainTextToken;
-        return $this->apiResponse(true, 'Success', ['token' => $token]) ;
+        return $this->apiResponse(true, 'Success',new TokenResource($token)) ;
 
     }
 }

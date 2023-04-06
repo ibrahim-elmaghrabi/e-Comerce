@@ -22,7 +22,7 @@ class StoreResource extends JsonResource
             'vat_included' => $this->vat_included,
             'vat_percentage' => $this->vat_percentage,
             'products_count' =>  $this->whenCounted('products'),
-            'user' => new UserResource($this->whenLoaded('user')),
+            'user' =>  BasicDataResource::make($this->whenLoaded('user')),
         ];
     }
 }

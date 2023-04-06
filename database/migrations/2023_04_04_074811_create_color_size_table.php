@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('color_sizes', function (Blueprint $table) {
+        Schema::create('color_size', function (Blueprint $table) {
             $table->id();
             $table->foreignId('color_id') ;
             $table->foreignId('size_id') ;

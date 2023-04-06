@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api;
 
+use App\Http\Resources\Api\SizeResource;
 use App\Http\Resources\Api\StoreResource;
 use App\Http\Resources\Api\CategoryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,8 +22,9 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'description' =>$this->description,
             'tax_number' => $this->tax_number,
-            'category' => new CategoryResource($this->whenLoaded('category')),
-            'store' => new StoreResource($this->whenLoaded('store')),
+            'category' =>    BasicDataResource::make($this->whenLoaded('categories')),
+            'store' =>   BasicDataResource::make($this->whenLoaded('store')),
+
 
 
         ];

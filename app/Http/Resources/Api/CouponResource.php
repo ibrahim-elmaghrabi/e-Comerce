@@ -23,7 +23,8 @@ class CouponResource extends JsonResource
             'status' => $this->status,
             'start_at' =>$this->start_at,
             'end_at' => $this->end_at,
-            'store' => new StoreResource($this->whenLoaded('store')),
+            'store' => BasicDataResource::make($this->whenLoaded('stores')),
+
         ];
     }
 }

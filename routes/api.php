@@ -26,7 +26,8 @@ Route::group(['middleware' => 'auth'], function (){
 
 Route::post('register', RegisterController::class);
 Route::post('verification',  verificationController::class);
-Route::post('login', LoginController::class);
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout']);
 Route::put('forget_Password', [ResetPasswordController::class, 'forgetPassword']);
 Route::post('verfiy_user', [ResetPasswordController::class, 'verfiyUser']);
 Route::post('reset-passsword', [ResetPasswordController::class, 'setNewPassword']);

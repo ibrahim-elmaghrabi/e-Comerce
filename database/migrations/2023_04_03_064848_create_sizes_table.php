@@ -11,8 +11,9 @@ return new class extends Migration
 		Schema::create('sizes', function (Blueprint $table) {
 			$table->id();
 			$table->foreignId('product_id');
-			$table->enum('size', array('xs', 's', 'l', 'xl', '2xl', '3xl', '4xl', '5xl'));
+			$table->string('size');
 			$table->unsignedDecimal('price');
+            $table->unsignedInteger('quantity');
 			$table->timestamps();
 		});
 	}
