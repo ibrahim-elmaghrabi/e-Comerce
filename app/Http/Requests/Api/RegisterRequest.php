@@ -26,9 +26,9 @@ class RegisterRequest extends FormRequest
         return [
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required|unique:users,phone',
+            'phone' => 'required|string|max:20|unique:users,phone',
             'city_id' => 'required|numeric|exists:cities,id',
-            'password' => 'required|confirmed',
+            'password' => 'required|confirmed|string|max:30',
         ];
     }
 }

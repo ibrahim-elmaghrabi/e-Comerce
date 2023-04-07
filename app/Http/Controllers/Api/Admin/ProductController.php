@@ -83,12 +83,12 @@ class ProductController extends Controller
     public function update(ProductRequest $request, $id)
     {
         $product = Product::findOrFail($id);
-        $product->update($request->validated())->save();
-        foreach ($request->validated(['sizes']) as $size) {
-		  $newSize = $product->sizes()->update(array_except($size, ['colors']));
-          $newSize->colors()->sync($size['colors']);
-		}
-        return $this->apiResponse(true, "Product Created Successfully");
+        $product->update($request->validated());
+        foreach ($request->validated()['sizes'] as $size) {
+            $newSize = $product->sizes()->updateOrCreate(array_except($size, ['colors']));
+            $newSize->colors()->sync($size['colors']);
+        }
+        return $this->apiResponse(true, "Product Updated Successfully");
     }
 
     /**
@@ -99,7 +99,12 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        Product::findOrFail($id)->delete();
+        $product = Product::findOrFail($id);
+        $product->sizes()->each(function ($size) {
+            $size->colors()->detach();
+        });
+        $product->sizes()->delete();
+        $product->delete();
         return $this->apiResponse(true, "Product Deleted successfully");
     }
 }

@@ -29,14 +29,15 @@ class ResetPasswordRequest extends FormRequest
     public function forgetPassword()
     {
         return[
-            'phone' => 'required'
+            'phone' => 'required|string|max:20'
         ];
     }
+
     public function resetPassword()
     {
         return [
-            'user_token' => 'required',
-            'pin_code' => 'required'
+            'user_token' => 'required|string|max:50',
+            'pin_code' => 'required|required|string|max:30'
         ];
     }
 }

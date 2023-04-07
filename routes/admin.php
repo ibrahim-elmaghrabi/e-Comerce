@@ -10,33 +10,29 @@ use App\Http\Controllers\Api\Admin\AddressController;
 use App\Http\Controllers\Api\Admin\CountryController;
 use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\Admin\CategoryController;
+use App\Http\Controllers\Api\Admin\Auth\LoginController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
+
+Route::post('login', [LoginController::class, 'login']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
-Route::resources([
-    'countries' =>  CountryController::class,
-    'cities' =>  CityController::class,
-    'categories' =>  CategoryController::class,
-    'admins' =>  AdminController::class,
-    'colors' => ColorController::class,
-    'coupons' => CouponController::class,
-    'addresses' => AddressController::class,
-    'products' => ProductController::class,
-    'stores' => StoreController::class
-], ['except' => ['create']]);
+    Route::resources([
+        'countries' =>  CountryController::class,
+        'cities' =>  CityController::class,
+        'categories' =>  CategoryController::class,
+        'admins' =>  AdminController::class,
+        'colors' => ColorController::class,
+        'coupons' => CouponController::class,
+        'addresses' => AddressController::class,
+        'products' => ProductController::class,
+        'stores' => StoreController::class
+    ], ['except' => ['create']]);
 
+    Route::post('logout', [LoginController::class, 'logout']);
 });
+
 
 
 

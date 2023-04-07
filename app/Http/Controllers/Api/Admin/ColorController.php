@@ -7,7 +7,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ColorRequest;
-use App\Http\Resources\Api\ColorResource;
+use App\Http\Resources\Api\BasicDataResource;
 
 class ColorController extends Controller
 {
@@ -19,7 +19,7 @@ class ColorController extends Controller
      */
     public function index()
     {
-        return $this->apiResponse(true, "Success", ColorResource::collection(Color::paginate(5)));
+        return $this->apiResponse(true, "Success", BasicDataResource::collection(Color::paginate(5)));
     }
 
     /**
@@ -52,7 +52,7 @@ class ColorController extends Controller
      */
     public function show($id)
     {
-        return $this->ApiResponse(true, "Success", new ColorResource(Color::findOrFail($id)));
+        return $this->ApiResponse(true, "Success", new BasicDataResource(Color::findOrFail($id)));
     }
 
     /**
@@ -63,7 +63,7 @@ class ColorController extends Controller
      */
     public function edit($id)
     {
-        return $this->apiResponse(true, "Success", new ColorResource(Color::findOrFail($id)));
+        return $this->apiResponse(true, "Success", new BasicDataResource(Color::findOrFail($id)));
     }
 
     /**

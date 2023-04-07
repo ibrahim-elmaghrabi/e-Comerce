@@ -26,8 +26,8 @@ class CouponRequest extends FormRequest
         return [
             'code' => 'required|string|max:10',
             'value' => 'required|decimal:2|between:0,9999999999.99',
-            'end_at' => 'nullable|required|after:start_at|date',
-            'start_at' => 'nullable|required|date',
+            'end_at' => 'nullable|required|after:start_at|date_formate:Y-m-d',
+            'start_at' => 'nullable|required|date_formate:Y-m-d',
             'store_id' => 'required|numeric|exists:stores,id',
         ];
     }

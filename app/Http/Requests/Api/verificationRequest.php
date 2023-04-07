@@ -24,8 +24,8 @@ class verificationRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_token' => 'required',
-            'pin_code' => 'required',
+            'user_token' => 'required|string|max:50',
+            'pin_code' => 'required|string|max:30',
         ];
     }
 }

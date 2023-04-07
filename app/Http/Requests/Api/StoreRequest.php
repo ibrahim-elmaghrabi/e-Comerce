@@ -24,11 +24,10 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:150',
+            'name' => 'required|string|max:100',
             'image'=> 'required|mimes:jpg,jpeg,png,bmp,tiff |max:4096',
             'include_vat' => 'boolean',
             'vat_percentage' => 'exclude_unless:include_vat,true|required|decimal:2|between:0,9999999999.99',
-
         ];
     }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('phone')->unique();
+            $table->string('phone')->nullable();
             $table->foreignId('city_id')->nullable();
             $table->string('user_type')->default('customer');
             $table->boolean('is_active')->default(0);

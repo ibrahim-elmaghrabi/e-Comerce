@@ -27,11 +27,11 @@ class AddressRequest extends FormRequest
             'city_id' => 'required|numeric|exists:cities,id',
             'user_id' => 'required|numeric|exists:users,id',
             'location' => 'required|string|max:255',
-            'latitude' => 'required|decimal',
-            'longitude' => 'required|decimal',
+            'latitude' => 'required|between:-90,90',
+            'longitude' => 'required|between:-180,180',
             'postal_code' => 'required|string|max:20',
             'building_number' => 'required|string|max:20',
-            'location_name' => 'required|string|max:100',
+            'location_name' => 'required|string|max:255',
         ];
     }
 }

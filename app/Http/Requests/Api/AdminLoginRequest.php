@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SetNewPasswordRequest extends FormRequest
+class AdminLoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class SetNewPasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_token' => 'required|string|max:50',
-            'password' => 'required|confirmed|string|max:30',
+            'email' => 'required|email|max:255',
+            'password' => 'required|string|max:30',
         ];
     }
 }

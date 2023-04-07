@@ -24,8 +24,8 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'message' => 'required|string|max:300',
+            'email' => 'required|email|max:255',
+            'message' => 'required|string|max:400',
         ];
     }
 }

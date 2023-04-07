@@ -29,13 +29,12 @@ class ProductRequest extends FormRequest
             'tax_number' => 'required|string|max:15',
             'category_id' => 'required|numeric|exists:categories,id',
             'store_id' => 'required|numeric|exists:stores,id',
-            'price' => 'required|decimal:2|between:0,9999999999.99',
-            'quantity' => 'required|numeric|between:1,99999',
-            'sizes' => 'required|array',
+            'sizes' => 'required|array|min:1',
             'sizes.*' => 'required|array',
             'sizes.*.size' => 'required|string|max:10',
-            'sizes.*.price' => 'required|string|max:10',
-            'sizes.*.colors' => 'required|array',
+            'sizes.*.price' => 'required|numeric|between:0,9999999999.99,',
+            'sizes.*.quantity' => 'required|numeric|between:1,9999,',
+            'sizes.*.colors' => 'required|array|min:1',
             'sizes.*.colors.*' => 'required|exists:colors,id',
         ];
     }

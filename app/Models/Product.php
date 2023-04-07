@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use App\Models\{Size, User, Image, Order, Store, Comment, Category,};
 
-class Product extends Model  implements HasMedia
+class Product extends Model
 {
-    use InteractsWithMedia;
+    //use InteractsWithMedia;
 
     protected $guarded = ['id', 'created_at', 'updated_at'] ;
 
