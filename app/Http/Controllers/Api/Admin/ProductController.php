@@ -43,6 +43,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request, Product $product)
     {
         $product->fill($request->validated()+['user_id' => 1])->save();
+
         foreach ($request->validated(['sizes']) as $size) {
 		  $newSize = $product->sizes()->create(array_except($size, ['colors']));
           $newSize->colors()->attach($size['colors']);
@@ -58,7 +59,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return $this->ApiResponse(true, "Success", new ProductResource(Product::with('category', 'store', )
+        return $this->ApiResponse(true, "Success", new ProductResource(Product::with('category', 'store')
             ->findOrFail($id)));
     }
 

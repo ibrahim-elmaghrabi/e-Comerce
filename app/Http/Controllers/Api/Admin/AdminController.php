@@ -7,6 +7,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Admin\AdminRequest;
+use App\Http\Resources\Api\BasicDataResource;
 
 class AdminController extends Controller
 {
@@ -18,8 +19,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $users = User::where('user_type', 'admin')->paginate(5);
-        return $this->apiResponse(true, "Success", $users);
+        return $this->apiResponse(true, "Success", BasicDataResource(User::where('user_type', 'admin')->paginate(5)));
     }
 
     /**
@@ -52,8 +52,7 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
-        return $this->ApiResponse(true, "Success", ['User' => $user]);
+        return $this->ApiResponse(true, "Success", new BasicDataResource(User::findOrFail($id)));
     }
 
     /**
@@ -64,8 +63,7 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-        return $this->apiResponse(true, "Success", $user);
+        return $this->apiResponse(true, "Success", new BasicDataResource(User::findOrFail($id)));
     }
 
     /**

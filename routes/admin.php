@@ -34,7 +34,6 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'admin'], function () 
     Route::resource('returning_requests', ReturningRequestController::class)->except('create', 'store', 'destroy');
     Route::resource('orders', OrderController::class)->except('create', 'store', 'destroy');
     Route::resource('addresses', AddressController::class)->except('create', 'store', 'update', 'destroy');
-
     Route::post('logout', [LoginController::class, 'logout']);
 
 });

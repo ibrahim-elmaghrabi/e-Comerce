@@ -36,7 +36,6 @@ Route::group(['middleware' => 'auth:sanctum'], function (){
     Route::post('orders', [OrderController::class, 'store']);
     Route::post('contacts', [ContactController::class, 'store']);
     Route::get('products', [ProductController::class, 'index']);
-
     Route::resource('returning_requests', ReturningRequestController::class)->except('edit', 'update', 'destroy');
     Route::resource('addresses', AddressController::class)->except('create');
 
