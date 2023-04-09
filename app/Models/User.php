@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\City;
-use App\Models\Store;
-use App\Models\Address;
+use App\Models\{Address, Store, City, ReturningRequest, Order};
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,6 +44,11 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function stores()
     {
         return $this->hasMany(Store::class);
@@ -59,5 +62,10 @@ class User extends Authenticatable
     public function addresses()
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function returningRequests()
+    {
+        return $this->hasMany(ReturningRequest::class);
     }
 }

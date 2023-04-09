@@ -28,5 +28,31 @@ class ProductController extends Controller
         return $this->apiResponse(1, 'Success', new ProductResource(Product::findOrFail($id)));
     }
 
+    public function filter(Request $request)
+    {
+        $title = $request->input('title');
+        $price = $request->input('price');
+        $city = $request->input('city_id');
+
+        $products = Product::query();
+
+        if ($title) {
+            $products->where('title', 'LIKE', '%' . $title . '%');
+        }
+
+        if ($price) {
+            $products->where('price', '<=', $price);
+        }
+
+        if ($city) {
+            $products->whereHas('store', function ($query) use ($city) {
+                $query->where('city_id', 'LIKE', '%' . $city . '%');
+            });
+        }
+
+        $products = $products->get();
+
+    }
+
 
 }

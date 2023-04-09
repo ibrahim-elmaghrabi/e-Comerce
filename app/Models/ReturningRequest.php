@@ -5,20 +5,21 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Order extends Model
+class ReturningRequest extends Model
 {
+    use HasFactory;
 
-    protected $guarded = [] ;
+    protected $guarded =[];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function products()
+    public function product()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->hasOne(Product::class);
     }
-
 }

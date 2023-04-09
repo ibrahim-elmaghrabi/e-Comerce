@@ -12,7 +12,8 @@ return new class extends Migration
 			$table->id();
 			$table->foreignId('user_id');
             $table->foreignId('address_id');
-			$table->unsignedDecimal('total');
+			$table->unsignedDecimal('total')->default(0);
+            $table->enum('status', ['pending', 'charged', 'delivered'])->default('pending');
 			$table->timestamps();
 		});
 	}

@@ -5,7 +5,7 @@ namespace App\Models;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use App\Models\{Size, User, Image, Order, Store, Comment, Category,};
+use App\Models\{Size, User, Image, Order, Store, Comment, Category, ReturningRequest};
 
 class Product extends Model
 {
@@ -46,6 +46,11 @@ class Product extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function returning_request()
+    {
+        return $this->belongsTo(ReturningRequest::class);
     }
 
 }

@@ -15,6 +15,5 @@ class ContactController extends Controller
     {
         Comment::create($request->validated());
         return $this->apiResponse(1, "your Message added Successfully");
-
     }
 }

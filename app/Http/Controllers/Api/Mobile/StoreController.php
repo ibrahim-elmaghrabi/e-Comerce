@@ -14,6 +14,6 @@ class StoreController extends Controller
 
     public function __invoke()
     {
-        return $this->apiResponse(1, 'Success', StoreResource(Store::get()));
+        return $this->apiResponse(1, 'Success', StoreResource(Store::paginate(10)));
     }
 }

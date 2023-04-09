@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Models\Category;
+use App\Models\Order;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\CategoryRequest;
-use App\Http\Resources\Api\CategoryResource;
+use App\Http\Requests\Api\OrderRequest;
+use App\Http\Resources\Api\OrderResource;
 
-class CategoryController extends Controller
+class OrderController extends Controller
 {
     use ApiResponse;
     /**
@@ -19,7 +19,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return $this->apiResponse(true, "Success", CategoryResource::collection(Category::withCount('children')->paginate(5)));
+        return $this->apiResponse(true, "Success", OrderResource::collection(Order::paginate(10)));
     }
 
     /**
@@ -38,10 +38,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request)
+    public function store(OrderRequest $request)
     {
-        Category::create($request->validated());
-        return $this->apiResponse(true, "Category Created Successfully");
+        //
     }
 
     /**
@@ -52,7 +51,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        return $this->ApiResponse(true, "Success", new CategoryResource(Category::findOrFail($id)));
+        return $this->ApiResponse(true, "Success", new OrderResource(Order::findOrFail($id)));
     }
 
     /**
@@ -63,7 +62,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        return $this->apiResponse(true, "Success", new CategoryResource(Category::findOrFail($id)));
+        return $this->apiResponse(true, "Success", new OrderResource(Order::findOrFail($id)));
     }
 
     /**
@@ -73,11 +72,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, $id)
+    public function update(OrderRequest $request, $id)
     {
-        $category = Category::findOrFail($id);
-        $category->update($request->validated());
-        return $this->apiResponse(true, "Category Updated Successfully");
+        $order = Order::findOrFail($id);
+        $order->update($request->validated());
+        return $this->apiResponse(true, "Order Updated Successfully");
     }
 
     /**
@@ -88,7 +87,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::findOrFail($id)->delete();
-        return $this->apiResponse(true, "Category Deleted successfully");
+        Order::findOrFail($id)->delete();
+        return $this->apiResponse(true, "Order Deleted successfully");
     }
 }
