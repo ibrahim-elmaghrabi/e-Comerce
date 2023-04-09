@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrderRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,10 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-        'address_id' => 'required|numeric|exists:addresses,id',
-        'product_id' => 'required|exists:products,id',
-        'items' => 'required|array',
-        'items.*.size_id' => 'required|exists:sizes,id',
-        'items.*.color_id' => 'required|exists:colors,id',
-        'items.*.quantity' => 'required|integer|min:1',
+            'name' => 'required|string|max:100',
+            'image'=> 'required|mimes:jpg,jpeg,png,bmp,tiff |max:4096',
+            'include_vat' => 'boolean',
+            'vat_percentage' => 'exclude_unless:include_vat,true|required|decimal:2|between:0,9999999999.99',
         ];
     }
 }

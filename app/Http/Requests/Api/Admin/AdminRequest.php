@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class AdminRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,9 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:100',
-            'image'=> 'required|mimes:jpg,jpeg,png,bmp,tiff |max:4096',
-            'include_vat' => 'boolean',
-            'vat_percentage' => 'exclude_unless:include_vat,true|required|decimal:2|between:0,9999999999.99',
+            'email' => 'required|email|max:255|unique:users,email,'.$this->id,
+            'password' => 'required|confirmed|string|max:30',
+            'phone' => 'required|string|max:20|min:11|unique:users,phone,'.$this->id,
         ];
     }
 }

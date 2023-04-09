@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\Mobile;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryRequest extends FormRequest
+class verificationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => 'required|max:50',
-            'parent_id' => 'numeric|exists:categories,id'
+            'user_token' => 'required|string|max:50',
+            'pin_code' => 'required|string|max:30',
         ];
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CommentRequest extends FormRequest
+class CityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class CommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_id' => 'required|numeric|exists:products,id',
-            'rete' => 'required|between:1,5',
-            'comment' =>  'required|string|max:500',
+            'country_id' => 'required|numeric|exists:countries,id',
+            'name' => 'required|string|max:100',
         ];
     }
 }

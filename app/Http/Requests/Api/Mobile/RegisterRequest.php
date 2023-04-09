@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\Mobile;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddressRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,11 @@ class AddressRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|max:20|unique:users,phone',
             'city_id' => 'required|numeric|exists:cities,id',
-            'user_id' => 'required|numeric|exists:users,id',
-            'location' => 'required|string|max:255',
-            'latitude' => 'required|between:-90,90',
-            'longitude' => 'required|between:-180,180',
-            'postal_code' => 'required|string|max:20',
-            'building_number' => 'required|string|max:20',
-            'location_name' => 'required|string|max:255',
+            'password' => 'required|confirmed|string|max:30',
         ];
     }
 }

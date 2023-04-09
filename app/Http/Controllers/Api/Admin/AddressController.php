@@ -6,7 +6,7 @@ use App\Models\Address;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\AddressRequest;
+use App\Http\Requests\Api\Admin\AddressRequest;
 use App\Http\Resources\Api\AddressResource;
 
 class AddressController extends Controller
@@ -39,10 +39,9 @@ class AddressController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddressRequest $request)
+    public function store(Request $request)
     {
-        Address::create($request->validated());
-        return $this->apiResponse(true, "Address Created Successfully");
+         //
     }
 
     /**
@@ -74,11 +73,9 @@ class AddressController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AddressRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $address = Address::findOrFail($id);
-        $address->update($request->validated());
-        return $this->apiResponse(true, "Address Updated Successfully");
+        //
     }
 
     /**

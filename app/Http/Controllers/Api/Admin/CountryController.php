@@ -6,7 +6,7 @@ use App\Models\Country;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\CountryRequest;
+use App\Http\Requests\Api\Admin\CountryRequest;
 use App\Http\Resources\Api\CountryResource;
 
 class CountryController extends Controller
@@ -19,7 +19,8 @@ class CountryController extends Controller
      */
     public function index()
     {
-        return $this->apiResponse(true, "Success", CountryResource::collection(Country::withCount('cities')->paginate(5)));
+        return $this->apiResponse(true, "Success",
+                 CountryResource::collection(Country::withCount('cities')->paginate(5)));
     }
 
     /**

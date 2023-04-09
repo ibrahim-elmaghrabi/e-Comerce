@@ -6,7 +6,7 @@ use App\Models\Order;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\OrderRequest;
+use App\Http\Requests\Api\Admin\OrderRequest;
 use App\Http\Resources\Api\OrderResource;
 
 class OrderController extends Controller
@@ -87,7 +87,6 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        Order::findOrFail($id)->delete();
-        return $this->apiResponse(true, "Order Deleted successfully");
+        //
     }
 }

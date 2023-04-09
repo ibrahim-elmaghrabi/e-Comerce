@@ -6,7 +6,7 @@ use App\Models\City;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\CityRequest;
+use App\Http\Requests\Api\Admin\CityRequest;
 use App\Http\Resources\Api\CityResource;
 
 class CityController extends Controller

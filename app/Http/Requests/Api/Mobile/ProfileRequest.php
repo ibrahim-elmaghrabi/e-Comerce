@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\Mobile;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminRequest extends FormRequest
+class ProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,9 @@ class AdminRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:100',
-            'email' => 'required|email|max:255|unique:users,email,'.$this->id,
-            'password' => 'required|confirmed|string|max:30',
-            'phone' => 'required|string|max:20|min:11|unique:users,phone,'.$this->id,
+            'email' => 'required|email|max:100|unique:users,email,'.$this->id,
+            'phone' => 'required|string|max:20|unique:users,phone,'.$this->id,
+            'city_id' => 'required|numeric|exists:cities,id',
         ];
     }
 }

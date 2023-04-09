@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class verificationRequest extends FormRequest
+class CountryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class verificationRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_token' => 'required|string|max:50',
-            'pin_code' => 'required|string|max:30',
+            "name" => 'required|string|max:30',
         ];
     }
 }

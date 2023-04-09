@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\Mobile;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChangePasswordRequest extends FormRequest
+class CommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class ChangePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' =>  'required|string|max:30',
-            'new_password'=> 'required|confirmed|string|max:30',
+            'product_id' => 'required|numeric|exists:products,id',
+            'rete' => 'required|between:1,5',
+            'comment' =>  'required|string|max:500',
         ];
     }
 }

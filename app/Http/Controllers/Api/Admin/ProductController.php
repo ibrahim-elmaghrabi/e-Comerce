@@ -6,7 +6,7 @@ use App\Models\Product;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\ProductRequest;
+use App\Http\Requests\Api\Admin\ProductRequest;
 use App\Http\Resources\Api\ProductResource;
 
 class ProductController extends Controller
@@ -20,8 +20,8 @@ class ProductController extends Controller
     public function index()
     {
 
-        return $this->apiResponse(true, "Success", ProductResource::collection(Product::with('store', 'category', 'sizes')
-        ->paginate(5)));
+        return $this->apiResponse(true, "Success",
+                ProductResource::collection(Product::with('store', 'category', 'sizes')->paginate(5)));
     }
 
     /**

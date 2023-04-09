@@ -6,7 +6,7 @@ use App\Models\ReturningRequest;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\ReturningRequestRequest;
+use App\Http\Requests\Api\Admin\ReturningRequestRequest;
 use App\Http\Resources\Api\ReturningRequestResource;
 
 class ReturningRequestController extends Controller
@@ -19,8 +19,9 @@ class ReturningRequestController extends Controller
      */
     public function index()
     {
-        return $this->apiResponse(true, "Success", ReturningRequestResource::collection(ReturningRequest::with('user','product')
-        ->where('user_id', auth()->user()->id)->paginate(5)));
+        return $this->apiResponse(true, "Success",
+        ReturningRequestResource::collection(ReturningRequest::with('user', 'product')
+            ->where('user_id', auth()->user()->id)->paginate(5)));
     }
 
     /**

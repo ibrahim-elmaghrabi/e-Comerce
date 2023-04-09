@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\Mobile;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CityRequest extends FormRequest
+class OrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,12 @@ class CityRequest extends FormRequest
     public function rules()
     {
         return [
-            'country_id' => 'required|numeric|exists:countries,id',
-            'name' => 'required|string|max:100',
+        'address_id' => 'required|numeric|exists:addresses,id',
+        'product_id' => 'required|exists:products,id',
+        'items' => 'required|array',
+        'items.*.size_id' => 'required|exists:sizes,id',
+        'items.*.color_id' => 'required|exists:colors,id',
+        'items.*.quantity' => 'required|integer|min:1',
         ];
     }
 }
