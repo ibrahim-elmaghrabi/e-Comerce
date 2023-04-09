@@ -13,6 +13,8 @@ class Store extends Model
 
     protected $guarded = [] ;
 
+    protected $casts = ['vat_percentage' => 'float'];
+
     public function products()
     {
         return $this->hasMany(Product::class);

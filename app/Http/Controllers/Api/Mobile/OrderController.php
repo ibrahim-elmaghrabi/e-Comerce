@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Api\Mobile;
 
-use App\Models\Order;
-use App\Models\Product;
+use App\Models\{Size, Product, Color, Address, Setting};
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,7 +19,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return $this->apiResponse('true', "Success", OrderResource::collection(Order::where('user_id', auth()->user()->id)->paginate(10)));
+
+
     }
 
     /**
@@ -39,50 +39,37 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(OrderRequest $request)
-    {
-     //   $order = auth()->user()->orders()->create($request->validated());
-       // $product = Product::findOrFail($request['product_id']);
-    $user = auth()->user();
-    $product = Product::findOrFail($request['product_id']);
+        public function store(OrderRequest $request)
+        {
 
-    // Create the order
-    $order = new Order(['user_id' => $user->id, 'address_id' => $request->address_id]);
-    $order = $product->orders()->save($order);
-
-    // Create the order items
-    foreach ($request['items'] as $itemData) {
-        $size = Size::findOrFail($itemData['size_id']);
-        $color = Color::findOrFail($itemData['color_id']);
-
-        if ($size->product_id != $product->id || !$size->colors->contains($color)) {
-            return response()->json(['message' => 'Invalid size or color for this product.'], 422);
+            $product = Product::findOrFail($request->product_id);
+            $address = Address::findOrFail($request->address_id);
+            if ($address->user_id != auth()->user()->id) {
+                return  $this->apiResponse(false, 'invalid Address');
+            }
+            $total = 0;
+            $order = auth()->user()->orders()->create(['address_id' => $request->address_id]);
+            foreach ($request['items'] as $item) {
+                $size = Size::findOrFail($item['size_id']);
+                $color = Color::findOrFail($item['color_id']);
+                $orderItem = [
+                    $item['size_id'] =>[
+                            'size_id' =>  $size->id,
+                            'color_id' => $color->id,
+                            'quantity' => $item['quantity'],
+                            'price'    => $size->price,
+                    ]
+                ];
+                $order->products()->attach($orderItem);
+                $deliverCharge= Setting::select('delivery_charge')->where('id', 1)->get();
+                $total += (($size->price * $item['quantity']) - $deliverCharge);
+            }
+            if ($product->store->include_vat) {
+                $total = ($total * $product->store->vat_percentage);
+            }
+            $order->update(['total' => $total]);
+            return $this->apiResponse(true, "Order Created Successfully");
         }
-
-        if ($size->getColorQuantity($color) < $itemData['quantity']) {
-            return response()->json(['message' => 'Not enough stock for this size and color.'], 422);
-        }
-
-        $orderItem = new OrderItem([
-            'size_id' => $size->id,
-            'price'  => $size->price,
-            'color_id' => $color->id,
-            'quantity' => $itemData['quantity'],
-        ]);
-        $order->items()->save($orderItem);
-        $total = $size->price * $itemData['quantity'];
-
-        $size->decrementColorQuantity($color, $itemData['quantity']);
-    }
-    $order->update(['total' => $total]);
-
-    return response()->json([
-        'message' => 'Order placed successfully.',
-        'order' => $order,
-    ], 201);
-
-
-    }
 
     /**
      * Display the specified resource.
@@ -92,7 +79,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        return $this->apiResponse(true, "Success", new OrderResource(Order::findOrFail($id)));
+         //
     }
 
     /**
@@ -103,8 +90,7 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        return $this->apiResponse(true, "Success", new OrderResource(Order::findOrFail($id)));
-
+         //
     }
 
     /**

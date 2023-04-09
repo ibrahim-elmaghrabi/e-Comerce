@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
+            $table->text('use_conditions');
+            $table->unsignedDecimal('delivery_charge');
             $table->timestamps();
         });
     }
