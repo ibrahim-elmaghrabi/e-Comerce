@@ -19,8 +19,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-
-
+        return $this->apiResponse(true, "Success", OrderResource::collection(Order::paginate(10)));
     }
 
     /**
@@ -41,7 +40,6 @@ class OrderController extends Controller
      */
         public function store(OrderRequest $request)
         {
-
             $product = Product::findOrFail($request->product_id);
             $address = Address::findOrFail($request->address_id);
             if ($address->user_id != auth()->user()->id) {
@@ -79,7 +77,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-         //
+         return $this->apiResponse(true, "Success", new OrderResource(Order::findOrFail($id)));
     }
 
     /**
