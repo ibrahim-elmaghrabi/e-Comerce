@@ -18,23 +18,24 @@ use App\Http\Controllers\Api\Admin\ReturningRequestController;
 
 Route::post('login', [LoginController::class, 'login']);
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'admin'], function () {
 
     Route::resources([
-        'countries' =>  CountryController::class,
+        'countries'=>  CountryController::class,
         'cities' =>  CityController::class,
-        'categories' =>  CategoryController::class,
-        'admins' =>  AdminController::class,
-        'colors' => ColorController::class,
-        'coupons' => CouponController::class,
-        'addresses' => AddressController::class,
-        'products' => ProductController::class,
-        'stores' => StoreController::class
+        'categories'=>  CategoryController::class,
+        'admins'=>  AdminController::class,
+        'colors'=> ColorController::class,
+        'coupons'=> CouponController::class,
+        'products'=> ProductController::class,
+        'stores'=> StoreController::class
     ], ['except' => ['create']]);
 
+    Route::resource('returning_requests', ReturningRequestController::class)->except('create', 'store', 'destroy');
+    Route::resource('orders', OrderController::class)->except('create', 'store', 'destroy');
+    Route::resource('addresses', AddressController::class)->except('create', 'store', 'update', 'destroy');
+
     Route::post('logout', [LoginController::class, 'logout']);
-    Route::resource('returning_requests', ReturningRequestController::class)->except('create','store');
-    Route::resource('orders', OrderController::class)->except('create','store');
 
 });
 

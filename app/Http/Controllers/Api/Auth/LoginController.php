@@ -7,7 +7,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\Api\LoginRequest;
+use App\Http\Requests\Api\Mobile\LoginRequest;
 use App\Http\Resources\Api\TokenResource;
 
 class LoginController extends Controller

@@ -1,14 +1,18 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Models\ReturningRequest;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Mobile\OrderController;
+use App\Http\Controllers\Api\Mobile\StoreController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\Mobile\AddressController;
+use App\Http\Controllers\Api\Mobile\ContactController;
+use App\Http\Controllers\Api\Mobile\ProductController;
 use App\Http\Controllers\Api\Mobile\ProfileController;
 use App\Http\Controllers\Api\Auth\verificationController;
 use App\Http\Controllers\Api\Auth\ResetPasswordController;
+use App\Http\Controllers\Api\Mobile\ReturningRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,10 +32,14 @@ Route::group(['middleware' => 'auth:sanctum'], function (){
     Route::get('profile/edit', [ProfileController::class, 'editProfile']);
     Route::put('profile', [ProfileController::class, 'updateProfile']);
     Route::put('profile/change_password', [ProfileController::class, 'changePassword']);
-
-    Route::resource('returning_requests', ReturningRequest::class)->except('edit','update','destroy');
-
+    Route::get('stores', StoreController::class);
     Route::post('orders', [OrderController::class, 'store']);
+    Route::post('contacts', [ContactController::class, 'store']);
+    Route::get('products', [ProductController::class, 'index']);
+
+    Route::resource('returning_requests', ReturningRequestController::class)->except('edit', 'update', 'destroy');
+    Route::resource('addresses', AddressController::class)->except('create');
+
 
 });
 

@@ -6,8 +6,8 @@ use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\ResetPasswordRequest;
-use App\Http\Requests\Api\SetNewPasswordRequest;
+use App\Http\Requests\Api\Mobile\ResetPasswordRequest;
+use App\Http\Requests\Api\Mobile\SetNewPasswordRequest;
 
 class ResetPasswordController extends Controller
 {

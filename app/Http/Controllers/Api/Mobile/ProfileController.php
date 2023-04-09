@@ -6,8 +6,8 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\Api\ProfileRequest;
-use App\Http\Resources\Api\ProfileResource;
+use App\Http\Requests\Api\Mobile\ProfileRequest;
+use App\Http\Resources\Api\Mobile\ProfileResource;
 use App\Http\Requests\Api\ChangePasswordRequest;
 
 class ProfileController extends Controller

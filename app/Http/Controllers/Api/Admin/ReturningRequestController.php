@@ -53,7 +53,8 @@ class ReturningRequestController extends Controller
      */
     public function show($id)
     {
-        return $this->apiResponse(true, 'Success', new ReturningRequestResource(ReturningRequest::with('user', 'product')->findOrFail($id)));
+        return $this->apiResponse(true, 'Success',
+        new ReturningRequestResource(ReturningRequest::with('user', 'product')->findOrFail($id)));
     }
 
     /**
@@ -89,7 +90,6 @@ class ReturningRequestController extends Controller
      */
     public function destroy($id)
     {
-        ReturningRequest::findOrFail($id)->delete();
-        return $this->apiResponse(true, 'ReturningRequest Deleted Successfully');
+         //
     }
 }

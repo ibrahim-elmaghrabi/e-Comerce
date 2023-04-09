@@ -6,7 +6,7 @@ use App\Models\{Size, Product, Color, Address, Setting};
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\OrderRequest;
+use App\Http\Requests\Api\Mobile\OrderRequest;
 use App\Http\Resources\Api\OrderResource;
 
 class OrderController extends Controller

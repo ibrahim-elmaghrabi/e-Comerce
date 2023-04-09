@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -27,6 +27,7 @@ class ReturningRequestRequest extends FormRequest
             'product_id' => 'required|numeric|exists:products,id',
             'reason' => 'required|string|max:255',
             'message' => 'required|max:500',
+            'status' => 'required|in:current,finished',
         ];
     }
 }

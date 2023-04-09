@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api\Mobile;
+namespace App\Http\Controllers\Api\Admin;
 
+use App\Models\Comment;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\ReturningRequest;
-use App\Http\Requests\Api\Mobile\ReturningRequestRequest;
-use App\Http\Resources\Api\ReturningRequestResource;
+use App\Http\Resources\Api\CommentResource;
 
-class ReturningRequestController extends Controller
+class CommentController extends Controller
 {
     use ApiResponse;
     /**
@@ -17,14 +16,10 @@ class ReturningRequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $requests = ReturningRequest::where(function ($query) use ($request) {
-            if ($request->has('status')) {
-                $query->where('status', $request->status);
-            }
-        })->paginate(10);
-        return $this->apiResponse(true, "Success", ReturningRequestResource::collection($requests));
+        return $this->apiResponse(true, "Success",
+                CommentResource::collection(Comment::paginate(5)));
     }
 
     /**
@@ -43,10 +38,9 @@ class ReturningRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ReturningRequestRequest $request)
+    public function store(CommentRequest $request)
     {
-       ReturningRequest::create($request->validated()+['user_id' => auth()->user()->id]);
-       return $this->apiResponse(true, 'Your Request Sent Successfully');
+        //
     }
 
     /**
@@ -57,7 +51,7 @@ class ReturningRequestController extends Controller
      */
     public function show($id)
     {
-        return $this->apiResponse(true, "Success", new ReturningRequestResource(ReturningRequest::findOrFail($id)));
+        return $this->ApiResponse(true, "Success", new CommentResource(Comment::findOrFail($id)));
     }
 
     /**
@@ -78,9 +72,9 @@ class ReturningRequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CommentRequest $request, $id)
     {
-        //
+         //
     }
 
     /**
