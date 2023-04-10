@@ -36,6 +36,8 @@ class ProductRequest extends FormRequest
             'sizes.*.quantity' => 'required|numeric|between:1,9999,',
             'sizes.*.colors' => 'required|array|min:1',
             'sizes.*.colors.*' => 'required|exists:colors,id',
+            'images' => 'array|required',
+            'images.*image' => 'required|mimes:jpg,jpeg,png,bmp,tiff|max:4096',
         ];
     }
 }

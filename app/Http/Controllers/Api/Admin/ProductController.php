@@ -19,9 +19,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-
         return $this->apiResponse(true, "Success",
-                ProductResource::collection(Product::with('store', 'category', 'sizes')->paginate(5)));
+        ProductResource::collection(Product::with('store', 'category', 'sizes','images')
+        ->paginate(5)));
     }
 
     /**
@@ -42,8 +42,11 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request, Product $product)
     {
-        $product->fill($request->validated()+['user_id' => 1])->save();
-
+        $product->fill($request->validated()+['user_id' => auth()->user()->id])->save();
+        foreach ($request->images as $image) {
+            $product->images()->create($image);
+            $image->store('products', 'public');
+        }
         foreach ($request->validated(['sizes']) as $size) {
 		  $newSize = $product->sizes()->create(array_except($size, ['colors']));
           $newSize->colors()->attach($size['colors']);
@@ -59,7 +62,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return $this->ApiResponse(true, "Success", new ProductResource(Product::with('category', 'store')
+        return $this->ApiResponse(true, "Success",
+            new ProductResource(Product::with('category', 'store', 'store', 'images', 'sizes')
             ->findOrFail($id)));
     }
 
@@ -71,7 +75,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        return $this->apiResponse(true, "Success", new ProductResource(Product::findOrFail($id)));
+         return $this->ApiResponse(true, "Success",
+            new ProductResource(Product::with('category', 'store', 'store', 'images', 'sizes')
+            ->findOrFail($id)));
     }
 
     /**
@@ -85,6 +91,10 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->update($request->validated());
+         foreach ($request->images as $image) {
+            $product->images()->updateOrCreate($image);
+            $image->store('products', 'public');
+        }
         foreach ($request->validated()['sizes'] as $size) {
             $newSize = $product->sizes()->updateOrCreate(array_except($size, ['colors']));
             $newSize->colors()->sync($size['colors']);
@@ -101,6 +111,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+        $product->images()->delete();
         $product->sizes()->each(function ($size) {
             $size->colors()->detach();
         });
