@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Models\User;
-use App\Notifications\OrderCreated;
+use App\events\OrderCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

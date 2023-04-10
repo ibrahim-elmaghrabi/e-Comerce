@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Notifications\OrderCreated;
+use App\events\OrderCreated;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use App\Listeners\NotifyUserOnOrderCreated;

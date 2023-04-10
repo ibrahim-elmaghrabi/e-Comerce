@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api\Mobile;
 
-use App\Models\{Size, Product, Color, Address, Setting};
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use App\events\OrderCreated;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Mobile\OrderRequest;
 use App\Http\Resources\Api\OrderResource;
+use App\Http\Requests\Api\Mobile\OrderRequest;
+use App\Models\{Size, Product, Color, Address, Setting};
 
 class OrderController extends Controller
 {
