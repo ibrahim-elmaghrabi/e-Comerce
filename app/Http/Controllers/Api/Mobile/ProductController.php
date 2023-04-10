@@ -45,9 +45,7 @@ class ProductController extends Controller
         }
 
         if ($city) {
-            $products->whereHas('store', function ($query) use ($city) {
-                $query->where('city_id', 'LIKE', '%' . $city . '%');
-            });
+            $products->where('city_id', $city->id);
         }
 
         $products = $products->get();

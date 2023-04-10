@@ -66,6 +66,7 @@ class OrderController extends Controller
                 $total = ($total * $product->store->vat_percentage);
             }
             $order->update(['total' => $total]);
+            even(new OrderCreated($order));
             return $this->apiResponse(true, "Order Created Successfully");
         }
 
