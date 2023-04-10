@@ -45,7 +45,7 @@ class ProductController extends Controller
     {
         $product->fill($request->validated()+['user_id' => auth()->user()->id])->save();
         foreach ($request->images as $image) {
-            $image->store('products', 'public');
+           // $image->store('products', 'public');
             $product->images()->create($image);
         }
         foreach ($request->validated(['sizes']) as $size) {

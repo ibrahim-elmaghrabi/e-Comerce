@@ -45,7 +45,7 @@ class ProductController extends Controller
         }
 
         if ($city) {
-            $products->where('city_id', $city->id);
+            $products->where('city_id', $products->user()->city->id);
         }
 
         $products = $products->get();

@@ -22,11 +22,10 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'description' =>$this->description,
             'tax_number' => $this->tax_number,
-            'category' =>    BasicDataResource::make($this->whenLoaded('categories')),
+            'category' => BasicDataResource::make($this->whenLoaded('category')),
             'store' =>   BasicDataResource::make($this->whenLoaded('store')),
-
-
-
+            'sizes' =>   BasicDataResource::make($this->whenLoaded('sizes')),
+            'images' =>   BasicDataResource::make($this->whenLoaded('images')),
         ];
     }
 }

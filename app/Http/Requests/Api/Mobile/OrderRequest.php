@@ -26,10 +26,11 @@ class OrderRequest extends FormRequest
         return [
         'address_id' => 'required|numeric|exists:addresses,id',
         'product_id' => 'required|exists:products,id',
+        'coupon_id' => 'numeric|exists:coupons,id',
         'items' => 'required|array',
         'items.*.size_id' => 'required|exists:sizes,id',
         'items.*.color_id' => 'required|exists:colors,id',
-        'items.*.quantity' => 'required|integer|min:1',
+        'items.*.quantity' => 'required|numeric|min:1',
         ];
     }
 }

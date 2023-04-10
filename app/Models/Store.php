@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Coupon;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,8 +14,7 @@ class Store extends Model
 
     protected $guarded = [] ;
 
-    protected $casts = ['vat_percentage' => 'float'];
-
+    //
     public function products()
     {
         return $this->hasMany(Product::class);
@@ -23,6 +23,11 @@ class Store extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class);
     }
 
 }

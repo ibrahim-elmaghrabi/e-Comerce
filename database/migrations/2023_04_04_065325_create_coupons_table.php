@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('code');
             $table->enum('type', ['percentage', 'fixed']);
             $table->unsignedDecimal('value');
-            $table->unsignedInteger('count')->nullable();
-            $table->enum('status'  , ['enable' , 'disable'])->default('disable');
+            $table->unsignedInteger('count')->default(0);
+            $table->enum('status', ['enable' , 'disable'])->default('disable');
             $table->date('start_at');
             $table->date('end_at');
             $table->foreignId('store_id');

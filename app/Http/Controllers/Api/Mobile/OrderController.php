@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api\Mobile;
 
 use App\Traits\ApiResponse;
-use Illuminate\Http\Request;
 use App\events\OrderCreated;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\OrderResource;
 use App\Http\Requests\Api\Mobile\OrderRequest;
-use App\Models\{Size, Product, Color, Address, Setting};
+use App\Models\{Size, Product, Color, Address, Setting, Store, Coupon};
 
 class OrderController extends Controller
 {
@@ -59,15 +59,29 @@ class OrderController extends Controller
                             'price'    => $size->price,
                     ]
                 ];
+                if ($size->quantity < $item['quantity']) {
+                    return $this->apiResponse(false, 'this quantity not available now for '.$size->size.' size');
+                }
                 $order->products()->attach($orderItem);
-                $deliverCharge= Setting::select('delivery_charge')->where('id', 1)->get();
-                $total += (($size->price * $item['quantity']) - $deliverCharge);
+                $deliverCharge= Setting::select('delivery_charge')->first();
+                $total += (($size->price * $item['quantity']) + $deliverCharge);
+                $size->decrement('quantity', $item['quantity']);
             }
             if ($product->store->include_vat) {
-                $total = ($total * $product->store->vat_percentage);
+                $vat = ($total * $product->store->vat_percentage);
+                $total = ($total + $vat);
+            }
+            if ($request->has('coupon_id')){
+                $coupon = Coupon::findOrFail($request->coupon_id);
+                if ($coupon->status == "disable") {
+                    return $this->apiResponse(false, "this coupon not valid");
+                } else {
+                    $total = ($total * $coupon->value) ;
+                    $coupon->increment('count');
+                }
             }
             $order->update(['total' => $total]);
-            even(new OrderCreated($order));
+            event(new OrderCreated($order));
             return $this->apiResponse(true, "Order Created Successfully");
         }
 
