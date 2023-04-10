@@ -6,8 +6,9 @@ use App\Models\Product;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Admin\ProductRequest;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Api\ProductResource;
+use App\Http\Requests\Api\Admin\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -44,8 +45,8 @@ class ProductController extends Controller
     {
         $product->fill($request->validated()+['user_id' => auth()->user()->id])->save();
         foreach ($request->images as $image) {
-            $product->images()->create($image);
             $image->store('products', 'public');
+            $product->images()->create($image);
         }
         foreach ($request->validated(['sizes']) as $size) {
 		  $newSize = $product->sizes()->create(array_except($size, ['colors']));
@@ -91,9 +92,15 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->update($request->validated());
-         foreach ($request->images as $image) {
-            $product->images()->updateOrCreate($image);
-            $image->store('products', 'public');
+        if ($request->has(['images'])) {
+            foreach ($product->images as $image) {
+                Storage::disk('public')->delete($image);
+                $image->delete();
+            }
+            foreach ($request->images as $image) {
+                $image->store('products', 'public');
+                $product->images()->updateOrCreate($image);
+            }
         }
         foreach ($request->validated()['sizes'] as $size) {
             $newSize = $product->sizes()->updateOrCreate(array_except($size, ['colors']));
@@ -111,6 +118,9 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+        foreach ($product->images as $image) {
+             Storage::disk('public')->delete($image);
+        }
         $product->images()->delete();
         $product->sizes()->each(function ($size) {
             $size->colors()->detach();

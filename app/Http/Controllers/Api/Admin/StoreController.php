@@ -6,8 +6,9 @@ use App\Models\Store;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Admin\StoreRequest;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Api\StoreResource;
+use App\Http\Requests\Api\Admin\StoreRequest;
 
 class StoreController extends Controller
 {
@@ -19,7 +20,6 @@ class StoreController extends Controller
      */
     public function index()
     {
-
         return $this->apiResponse(true, "Success", StoreResource::collection(Store::with('user')
         ->withCount('products')->paginate(5)));
     }
@@ -42,7 +42,8 @@ class StoreController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        Store::create($request->validated());
+        $request->image = $request->file('image')->store('stores', 'public');
+        Store::create($request->validated()+['user_id' => auth()->user()->id]);
         return $this->apiResponse(true, "Store Created Successfully");
     }
 
@@ -79,6 +80,10 @@ class StoreController extends Controller
     public function update(StoreRequest $request, $id)
     {
         $store = Store::findOrFail($id);
+        if ($request->hasFile('image')) {
+            Storage::disk('public')->delete($store->image);
+            $request->image = $request->file('image')->store('stores', 'public');
+        }
         $store->update($request->validated());
         return $this->apiResponse(true, "Store Updated Successfully");
     }
@@ -91,7 +96,9 @@ class StoreController extends Controller
      */
     public function destroy($id)
     {
-        Store::findOrFail($id)->delete();
+        $store = Store::findOrFail($id);
+        Storage::disk('public')->delete($store->image);
+        $store->delete();
         return $this->apiResponse(true, "Store Deleted successfully");
     }
 }
