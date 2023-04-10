@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use App\events\OrderCreated;
+use App\Events\OrderCreated;
+use App\Events\OrderUpdated;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use App\Listeners\NotifyUserOnOrderCreated;
+use App\Listeners\NotifyUserOnOrderUpdated;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -23,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
 
         OrderCreated::class => [
             NotifyUserOnOrderCreated::class,
+        ],
+
+        OrderUpdated::class => [
+            NotifyUserOnOrderUpdated::class,
         ],
     ];
 

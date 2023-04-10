@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Models\Order;
 use App\Traits\ApiResponse;
+use App\Events\OrderUpdated;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Admin\OrderRequest;
 use App\Http\Resources\Api\OrderResource;
+use App\Http\Requests\Api\Admin\OrderRequest;
 
 class OrderController extends Controller
 {
@@ -76,6 +77,7 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->update($request->validated());
+        event(new OrderUpdated($order));
         return $this->apiResponse(true, "Order Updated Successfully");
     }
 

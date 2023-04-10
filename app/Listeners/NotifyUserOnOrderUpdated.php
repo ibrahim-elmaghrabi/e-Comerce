@@ -2,12 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Models\User;
-use App\Events\OrderCreated;
+use App\Events\OrderUpdated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class NotifyUserOnOrderCreated
+class NotifyUserOnOrderUpdated
 {
     /**
      * Create the event listener.
@@ -25,7 +24,7 @@ class NotifyUserOnOrderCreated
      * @param  object  $event
      * @return void
      */
-    public function handle(OrderCreated $event)
+    public function handle(OrderUpdated $event)
     {
         $order = $event->getOrder();
         $user = User::find($order->user->id);
