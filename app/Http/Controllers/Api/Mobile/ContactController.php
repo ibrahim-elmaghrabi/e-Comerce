@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Mobile;
 
+use App\Models\Contact;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Mobile\Controller;
@@ -13,7 +14,7 @@ class ContactController extends Controller
 
     public function __invoke(ContactRequest $request)
     {
-        Comment::create($request->validated());
+        Contact::create($request->validated());
         return $this->apiResponse(1, "your Message added Successfully");
     }
 }

@@ -13,6 +13,17 @@ class AddressController extends Controller
 {
     use ApiResponse;
 
+    public function index()
+    {
+        return $this->apiResponse(true, "Success",
+        AddressResource::collection(Address::where('user_id', auth()->user()->id)->paginate(10)));
+    }
+
+    public function show($id)
+    {
+        return $this->apiResponse(true, "Success", new AddressResource(Address::findOrFail($id)));
+    }
+
     public function store(AddressRequest $request)
     {
         Address::create($request->validated()+['user_id' => auth()->user()->id]);

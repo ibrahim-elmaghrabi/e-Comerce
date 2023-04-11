@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Api\Admin;
+namespace App\Http\Resources\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class oneResource extends JsonResource
+class ContactResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,6 +14,10 @@ class oneResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'message' => $this->message,
+        ];
     }
 }

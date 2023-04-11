@@ -33,10 +33,10 @@ Route::group(['middleware' => 'auth:sanctum'], function (){
     Route::put('profile', [ProfileController::class, 'updateProfile']);
     Route::put('profile/change_password', [ProfileController::class, 'changePassword']);
     Route::get('stores', StoreController::class);
-    Route::post('orders', [OrderController::class, 'store']);
-    Route::post('contacts', [ContactController::class, 'store']);
+    Route::resource('orders', OrderController::class)->except('edit', 'update', 'destroy', 'create');
+    Route::post('contacts', ContactController::class);
     Route::get('products', [ProductController::class, 'index']);
-    Route::resource('returning_requests', ReturningRequestController::class)->except('edit', 'update', 'destroy');
+    Route::resource('returning_requests', ReturningRequestController::class)->except('create', 'edit', 'update', 'destroy');
     Route::resource('addresses', AddressController::class)->except('create');
 
 
@@ -47,7 +47,7 @@ Route::post('register', RegisterController::class);
 Route::post('verification',  verificationController::class);
 Route::post('user_login', [LoginController::class, 'login']);
 Route::put('forget_password', [ResetPasswordController::class, 'forgetPassword']);
-Route::post('verfiy_user', [ResetPasswordController::class, 'verfiyUser']);
-Route::post('reset-passsword', [ResetPasswordController::class, 'setNewPassword']);
+Route::post('verify_user', [ResetPasswordController::class, 'verifyUser']);
+Route::post('reset-password', [ResetPasswordController::class, 'setNewPassword']);
 
 

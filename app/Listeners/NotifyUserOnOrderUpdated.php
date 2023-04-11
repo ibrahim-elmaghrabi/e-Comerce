@@ -27,7 +27,7 @@ class NotifyUserOnOrderUpdated
     public function handle(OrderUpdated $event)
     {
         $order = $event->getOrder();
-        $user = User::find($order->user->id);
-        $user->notify(new \App\Notifications\OrderCreated($order));
+        $user = User::find($order->user_id);
+        $user->notify(new \App\Notifications\OrderUpdated($order));
     }
 }

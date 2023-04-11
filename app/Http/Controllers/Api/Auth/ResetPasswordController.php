@@ -22,10 +22,10 @@ class ResetPasswordController extends Controller
         $user->pin_code = $code;
         $user->user_token = uniqid();
         $user->save();
-        return $this->apiResponse(true, "please chesck your device", ['verify_token' => $user->user_token]);
+        return $this->apiResponse(true, "please check your device", ['verify_token' => $user->user_token]);
     }
 
-    public function verfiyUser(ResetPasswordRequest $request)
+    public function verifyUser(ResetPasswordRequest $request)
     {
         $user = User::where('user_token', $request->user_token)->first();
         if ($request->pin_code != $user->pin_code)

@@ -11,6 +11,14 @@ class Coupon extends Model
 
     protected $guarded = [] ;
 
+    public function setValueAttribute($value)
+    {
+        if ($this->attributes['type'] == 'percentage') {
+            $value = $value / 100 ;
+        }
+        $this->attributes['value'] = $value;
+    }
+
     public function store()
     {
         return $this->belongsTo(Store::class);

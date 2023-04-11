@@ -18,9 +18,14 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->apiResponse(true, "Success", OrderResource::collection(Order::paginate(10)));
+        $orders = Order::where(function($query) use ($request) {
+            if ($request->has('status')) {
+                $query->where('status', $request->status);
+            }
+        })->paginate(10);
+        return $this->apiResponse(true, "Success", OrderResource::collection($orders));
     }
 
     /**

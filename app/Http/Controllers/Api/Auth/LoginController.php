@@ -16,11 +16,13 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
-
         $user = User::where('phone', $request['phone'])->first();
         if (!$user || !Hash::check($request['password'], $user->password))
         {
             return $this->apiResponse(false, 'wrong phone or password');
+        }
+        if ($user->pin_code != null) {
+            return $this->apiResponse(true, "please activate your account to take access");
         }
         return $this->apiResponse(true, 'Success', new TokenResource($user)) ;
     }
